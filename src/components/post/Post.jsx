@@ -1,29 +1,36 @@
 import React from 'react';
 import styles from './Post.module.css';
+import { Link } from 'react-router-dom';
 
-export default function Post() {
+export default function Post({ post }) {
+  const PF = 'http://localhost:5000/images/';
+  console.log(post.photo);
   return (
     <div className={styles.post}>
-      <img
-        className={styles.postImg}
-        src='https://images.pexels.com/photos/6685428/pexels-photo-6685428.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500'
-        alt=''
-      />
+      {post.photo && (
+        <img className={styles.postImg} src={PF + post.photo} alt='' />
+      )}
       <div className={styles.postInfo}>
         <div className={styles.postCats}>
-          <span className={styles.postCat}>Music</span>
-          <span className={styles.postCat}>Life</span>
+          {post.categories ? (
+            post.categories.map((category) => (
+              <span key={category._id} className={styles.postCat}>
+                {category.name}
+              </span>
+            ))
+          ) : (
+            <span className={styles.postCat}>No Categories</span>
+          )}
         </div>
-        <span className={styles.postTitle}>Lorem ipsum dolor, sit amet</span>
+        <Link to={`/post/${post._id}`} className='link'>
+          <span className={styles.postTitle}>{post.title}</span>
+        </Link>
         <hr />
-        <span className={styles.postDate}>1 hour ago</span>
+        <span className={styles.postDate}>
+          {new Date(post.createdAt).toDateString()}
+        </span>
       </div>
-      <p className={styles.postDesc}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe nobis
-        nemo sapiente ullam, omnis illum quaerat esse corporis, et ducimus
-        debitis. Praesentium repudiandae soluta deserunt quo eos fugiat autem
-        tempora?
-      </p>
+      <p className={styles.postDesc}>{post.desc}</p>
     </div>
   );
 }

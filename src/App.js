@@ -6,9 +6,11 @@ import Settings from './page/settings/Settings';
 import Login from './page/login/Login';
 import Register from './page/register/Register';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useContext } from 'react';
+import { Context } from './context/Context';
 
 function App() {
-  const user = false;
+  const { user } = useContext(Context);
   return (
     <BrowserRouter>
       <TopBar />
